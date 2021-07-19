@@ -1,0 +1,14 @@
+1. Determine the number of ads which have generated leads on the site per day
+
+SELECT COUNT(ad_id) as Number_of_ads,date(date_of_lead) as Dates 
+FROM daft.total_leads1
+GROUP BY date_of_lead
+order by date_of_lead ASC;
+
+2. Determine the YoY growth of leads in county Dublin from 2018 to 2020 (use lag)
+
+SELECT YEAR(date_of_lead) as Year ,count(leads) as Current_Leads,
+LAG(count(leads)) OVER(ORDER BY YEAR(date_of_lead)) as Previous_Leads
+from daft.total_leads1
+where (date(date_of_lead) BETWEEN '2018-01-01'	 AND '2020-12-31') AND (COUNTY= 'Dublin')
+GROUP BY YEAR(date_of_lead);
